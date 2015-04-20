@@ -16,21 +16,21 @@ def form(request):
         form += 'URL a acortar: <input type="text" name="real_url">'
         form += '<input type="submit" value="Enviar">'
         form += '</form>'
-        
+
         out += form
         list = Table.objects.all()
         if list:
             out += "The previous searches are: "
             out += "<html><body><ul>\n"
             for i in list:
-                out += "<li><a href=" + str(i.id) + ">" 
+                out += "<li><a href=" + str(i.id) + ">"
                 out += i.real_url + "</a></li>\n"
             out += "</ul></body></html>"
         else:
             out += "There are no previous searches on this page"
-            out += "</ul></body></html>"              
+            out += "</ul></body></html>"
         return HttpResponse(out)
-    elif request.method == "PUT" or request.method == "POST" :
+    elif request.method == "PUT" or request.method == "POST":
         out = ""
         url = request.body
         url = url.split("real_url=")[1]
@@ -51,7 +51,8 @@ def form(request):
                 + "URL acortada: " + "<a href=" + str(new.id) + ">"
                 + str(new.id) + "</href></br>" + "</body></html>")
         return HttpResponse(out)
-        
+
+
 def redirect(request, resource):
     try:
         url = Table.objects.get(id=resource)

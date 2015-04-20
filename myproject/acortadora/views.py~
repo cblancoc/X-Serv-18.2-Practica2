@@ -23,14 +23,14 @@ def form(request):
             out += "The previous searches are: "
             out += "<html><body><ul>\n"
             for i in list:
-                out += "<li><a href=" + str(i.id) + ">" 
+                out += "<li><a href=" + str(i.id) + ">"
                 out += i.real_url + "</a></li>\n"
             out += "</ul></body></html>"
         else:
             out += "There are no previous searches on this page"
-            out += "</ul></body></html>"              
+            out += "</ul></body></html>"
         return HttpResponse(out)
-    elif request.method == "PUT" or request.method == "POST" :
+    elif request.method == "PUT" or request.method == "POST":
         out = ""
         url = request.body
         url = url.split("real_url=")[1]
@@ -51,14 +51,11 @@ def form(request):
                 + "URL acortada: " + "<a href=" + str(new.id) + ">"
                 + str(new.id) + "</href></br>" + "</body></html>")
         return HttpResponse(out)
-        
-def redirect(request, resource):
-try:
-fila = Urls.objects.get(id=recurso)
-except Urls.DoesNotExist:
-return HttpResponse("Error, la url corta no es valida")
-return HttpResponseRedirect(fila.larga)
 
-def notfound(request, resource):
-    out = ("Page not found.")
-    return HttpResponseNotFound(out)
+
+def redirect(request, resource):
+    try:
+        url = Table.objects.get(id=resource)
+    except Table.DoesNotExist:
+        return HttpResponseNotFound("Page not found")
+    return HttpResponseRedirect(url.real_url)
